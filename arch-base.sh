@@ -15,7 +15,30 @@ VIDEO_DRIVER="i915"
 # For generic stuff
 #VIDEO_DRIVER="vesa"
 
+
 setup() {
+    echo 'Installing base system'
+    install_base
+    
+    echo 'set fstab..'
+	set_fstab
+	
+    echo 'Chrooting into installed system to continue setup...'
+    cp $0 /mnt/setup.sh
+    arch-chroot /mnt ./setup.sh chroot
+
+    if [ -f /mnt/setup.sh ]
+    then
+        echo 'ERROR: Something failed inside the chroot, not unmounting filesystems so you can investigate.'
+        echo 'Make sure you unmount everything before you try to run this script again.'
+    else
+        echo 'Unmounting filesystems'
+        unmount_filesystems
+        echo 'Done! Reboot system.'
+    fi
+}
+
+configure() {
 	echo 'Installing base system'
     install_base
     
@@ -58,8 +81,6 @@ install_base() {
 
 set_fstab() {
     genfstab -U /mnt >> /mnt/etc/fstab
-	echo 'set to arch-chroot'
-    arch-chroot
 }
 
 set_hostname() {
@@ -256,7 +277,7 @@ set -ex
 
 if [ "$1" == "chroot" ]
 then
-    echo "coba reboot bang.."
+    configure
 else
     setup
 fi
