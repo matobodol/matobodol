@@ -221,18 +221,18 @@ EOF
 install_packages() {
     local packages=''
 
+    # grub
+    packages+=' grub base-devel linux-headers'
+    
     # Network
     packages+=' dialog networkmanager wireless_tools wpa_supplicant' 
 	
 	# audio
-	packages+=' pulseaudio pulseaudio-alsa pulseaudio-bluetooth alsa-utils bluez bluez-utils'
+	# packages+=' pulseaudio pulseaudio-alsa pulseaudio-bluetooth alsa-utils bluez bluez-utils'
     
     # Fonts
     packages+=' ttf-dejavu ttf-liberation'
     
-    # grub
-    packages+=' grub base-devel linux-headers'
-
     # tools
     packages+=' gvfs gvfs-mtp mtools ntfs-3g dosfstools os-prober'
 
