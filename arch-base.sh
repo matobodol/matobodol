@@ -256,7 +256,7 @@ set -ex
 
 if [ "$1" == "chroot" ]
 then
-    configure
+    echo "coba reboot bang.."
 else
     setup
 fi
